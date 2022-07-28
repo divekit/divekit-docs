@@ -1,0 +1,18 @@
+{{ $original := .Get "src" }}
+<div id="ohpen_asyncapi"></div>
+<script>
+  window.onload = function () {
+    const ui = AsyncApiStandalone.render({
+        schema: {
+          url: {{ $original | relURL }},
+          options: { method: "GET", mode: "cors" },
+        },
+        config: {
+          show: {
+            sidebar: true,
+          }
+        },
+      }, document.getElementById('ohpen_asyncapi'));
+    window.ui = ui;
+  };
+</script>

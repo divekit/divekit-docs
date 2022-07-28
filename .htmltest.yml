@@ -1,0 +1,3 @@
+IgnoreAltMissing: true
+IgnoreDirs:
+  - _print
