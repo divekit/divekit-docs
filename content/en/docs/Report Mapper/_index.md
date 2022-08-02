@@ -102,5 +102,5 @@ The versioning is mostly based on [semantic versioning](https://semver.org/lang/
 
 ### 1.0.8
 
-- Parameter Verarbeitung hinzugefügt, welche eine Einschränkung der genutzten Mapper ermöglichen
-- Error handling: Liefert ein Mapper kein valides Ergebnis wird ein Fehler in der unified.xml mit angegeben 
+- Parameters processing added, which allow a restriction of the used mappers
+- Error handling: If a mapper does not deliver a valid result, an error is indicated in the unified.xml. 
