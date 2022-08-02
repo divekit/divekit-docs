@@ -11,6 +11,9 @@ description: >
 resources:
 ---
 
+## Architecture overview
+![](architecture.png)
+
 
 ## Getting started
 
