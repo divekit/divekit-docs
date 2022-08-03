@@ -14,6 +14,94 @@ resources:
 ## Architecture overview
 ![](architecture.png)
 
+## Usage in the pipeline
+For the usage in the pipeline you just need `node` as prerequisite and then install and use the report-mapper as following:
+```bash
+npm install @divekit/report-mapper
+npx report-mapper
+```
+Keep in mind, to provide needed input-data based on your [configuration](#configuration).
+
+### Complete sample test-repo pipeline-script
+```yml
+image: maven:3-jdk-11
+
+stages:
+  - build
+  - deploy
+
+build: # Build test reports
+  stage: build
+  script:
+    - chmod ugo+x ./setup-test-environment.sh
+    - ./setup-test-environment.sh # copy code from code repo and ensure that test are NOT overridden
+    - mvn pmd:pmd # build clean code report
+    - mvn verify -fn # always return status code 0 => Continue with the next stage
+  allow_failure: true
+  artifacts: # keep reports for the next stage
+    paths:
+      - target/pmd.xml
+      - target/surefire-reports/TEST-*.xml
+
+pages: # gather reports and visualize via gitlab-pages
+  image: node:latest
+  stage: deploy
+  script:
+    - npm install @divekit/report-mapper
+    - npx report-mapper # run generate unified.xml file
+    - npm install @divekit/report-visualizer
+    - npx report-visualizer --title $CI_PROJECT_NAME # generate page
+
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+
+```
+### configuration
+The report mapper is configurable in two main ways:
+1. By defining which inputs are expected and therefore should be computed.
+   This is configurable via parameters. You can choose from the following: pmd, checkstyle* and surefire.
+   If none are provided it defaults to surefire and pmd.
+```bash
+npx report-mapper [surefire pmd checkstyle]
+```
+2. The second option is specific to PMD. PMD for itself has a configuration-file `pmd-ruleset.xml` which configures 
+   which PMD rules should be checked. The report mapper also reads from this file and will design the 
+   output based on available rules.
+   <br> _Note: The assignment of PMD rules to clean code and solid principles is as of now hardcoded and not configurable._
+
+
+_*The checkstyle-mapper is currently not included in the testing and therefore should be used with caution._
+
+Example simplified `pmd-ruleset.xml`:
+```xml
+<?xml version="1.0"?>
+<ruleset name="Custom Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+  <description>
+    Clean Code Rules
+  </description>
+
+  <!-- :::::: CLEAN CODE :::::: -->
+  <!-- Naming rules -->
+  <rule ref="category/java/codestyle.xml/ClassNamingConventions"/>
+  <rule ref="category/java/codestyle.xml/FieldNamingConventions"/>
+
+  <!-- :::::::: SOLID :::::::: -->
+  <!-- SRP (Single Responsibility Principle) rules -->
+  <rule ref="category/java/design.xml/TooManyFields"/> <!-- default 15 fields -->
+  <rule ref="category/java/design.xml/TooManyMethods"> <!-- default is 10 methods -->
+    <properties>
+      <property name="maxmethods" value="15" />
+    </properties>
+  </rule>
+</ruleset>
+
+```
 
 ## Getting started
 
@@ -34,11 +122,17 @@ npm test # check that everything works as intended
 ```
 
 ### Provide input data
-
-Surefire-Reports should be placed here: `target/surefire-reports/` 
-
-PMD and Checkstyle results should be placed here: `target/`
-
+The input data should be provided in the following structure:
+```
+divekit-report-mapper
+├── target
+|   ├── surefire-reports
+|   |    ├── fileA.xml
+|   |    └── fileB.xml
+|   ├── checkstyle-result.xml
+|   └── pmd.xml
+└── ...
+```
 _You can find some examples for valid and invalid inputs in the tests: `src/test/resources`_
 
 ```bash
@@ -80,10 +174,10 @@ Example with only valid data:
 For further examples see tests `src/test/resources`.
 
 ### Deployment
-All pipeline script normally use the latest version from
+All pipeline scripts normally use the latest version from
 [npmjs.com](https://www.npmjs.com/package/@divekit/report-mapper).
 
-The repository is setup with three different GitHub Actions workflows wich trigger 
+The repository is set up with three different GitHub Actions workflows wich trigger 
 on pushes to the branches `main`, `stage` and `development`.
 
 - main: Build, run tests and publish new npm package. Fails if:
