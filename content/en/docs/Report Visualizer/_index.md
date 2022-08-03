@@ -112,17 +112,16 @@ divekit-report-visualizer
 The following picture shows an example output with passed test (green), test failures (orange),
 errors (red) and a note (gray).
 ![](example-output.png)
-<!-- TODO provide image with Testsuite, Notes, Errors -->
 
 
 ### Deployment
 Currently, completely manually. In the future done similar to [report-mapper](../report-mapper) 
 
 All pipeline scripts normally use the latest version from
-[npmjs.com](https://www.npmjs.com/package/@divekit/report-mapper).
+[npmjs.com](https://www.npmjs.com/package/@divekit/report-visualizer).
 
 ## Version
-Complete packages available at [npmjs.com](https://www.npmjs.com/package/@divekit/report-mapper).
+Complete packages available at [npmjs.com](https://www.npmjs.com/package/@divekit/report-visualizer).
 The versioning is mostly based on [semantic versioning](https://semver.org/lang/de/).
 
 ### 1.0.3
