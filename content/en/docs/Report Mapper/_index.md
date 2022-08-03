@@ -7,7 +7,8 @@ description: >
   The report-mapper ensures that various inputs from Surefire-Reports, PMD and Checkstyle codestyle checks are converted
   into a uniform format.
   
-  The produced result is an XML file and subsequently used by the [report-visualizer](TODO) for a readable output.
+  The produced result is an XML file and subsequently used by the [report-visualizer](../report-visualizer/) 
+  for a readable output.
 resources:
 ---
 
@@ -127,8 +128,9 @@ The input data should be provided in the following structure:
 divekit-report-mapper
 ├── target
 |   ├── surefire-reports
-|   |    ├── fileA.xml
-|   |    └── fileB.xml
+|   |    ├── fileForTestGroupA.xml
+|   |    ├── fileForTestGroupB.xml
+|   |    └── ...
 |   ├── checkstyle-result.xml
 |   └── pmd.xml
 └── ...
