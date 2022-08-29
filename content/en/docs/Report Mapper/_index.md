@@ -195,8 +195,11 @@ The versioning is mostly based on [semantic versioning](https://semver.org/lang/
 
 ### 1.1.1
 
-### 1.0.9-beta.1
-
+- moved docs from readme to divekit-docs
+- add continues delivery pipeline
+- switch to eslint
+- add configurability of pmd principles 
+- add surefire parsing error flag
 - update scripts according to new report-visualizer naming
 
 ### 1.0.8
