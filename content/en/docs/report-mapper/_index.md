@@ -7,7 +7,7 @@ description: >
   The report-mapper ensures that various inputs from Surefire-Reports, PMD and Checkstyle codestyle checks are converted
   into a uniform format.
   
-  The produced result is an XML file and subsequently used by the [report-visualizer](../report-visualizer/) 
+  The produced result is an XML file and subsequently used by the [report-visualizer](../report-visualizer/.) 
   for a readable output.
 resources:
 ---
