@@ -12,7 +12,8 @@ description: >
 
 1. Install NodeJs (version >= 12.0.0) which is required to run this tool. NodeJs can be acquired on the
    website [nodejs.org](https://nodejs.org/en/download/).
-2. To use this tool you have to clone this repository to your local drive.
+2. To use this tool you have to clone [the repository](https://github.com/divekit/divekit-automated-repo-setup) to your
+   local drive.
 3. This tool uses several libraries in order to use the Gitlab API etc. Install these libraries by running the
    command ```npm install``` in the root folder of this project.
 4. Local/GitLab usage
