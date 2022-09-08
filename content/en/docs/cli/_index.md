@@ -7,7 +7,7 @@ description: >
 ---
 
 {{% pageinfo %}}
-The documentation is not yet written. Feel free to add it yourself ;)
+The documentation is in a very early stage and some parts might be outdated.
 {{% /pageinfo %}}
 
 ## Getting started
