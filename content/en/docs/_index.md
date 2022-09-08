@@ -12,7 +12,7 @@ menu:
 The documentation is in a very early stage and some parts might be outdated.
 {{% /pageinfo %}}
 
-# Functionality
+## Functionality
 
 The Divekit supports a testing concept which is based on the following components:
 
