@@ -137,12 +137,37 @@ root_of_tool
                 - origin-folder
                     - src
                     - .gitignore
-                    - .Readme      
+                    - .Readme
 ```
 
 If you dont want to copy the origin repository each time you want to test a new version specify the file path to the
 origin repository in the config under *local.originRepositoryFilePath*.
 
+### Partially repository generation
+While running the `automated-repo-setup` in local mode you have the option to partially generate repositories.
+
+To do so, just configure the `repositoryConfig.json`* as such:
+```json
+{
+    "general": {
+        "localMode": true
+    },
+    "local": {
+        "subsetPaths": [
+          "README.md",
+          "path/to/malfunction/file.eof"
+        ]
+    }
+}
+```
+**only partially shown*
+
+Start generation
+```bash
+npm start
+```
+
+Generated files are located under: `resources/output/`
 
 ## File Assignment
 
