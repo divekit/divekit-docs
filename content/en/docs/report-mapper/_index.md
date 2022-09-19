@@ -193,6 +193,10 @@ on pushes to the branches `main`, `stage` and `development`.
 Complete packages available at [npmjs.com](https://www.npmjs.com/package/@divekit/report-mapper).
 The versioning is mostly based on [semantic versioning](https://semver.org/lang/de/).
 
+### 1.1.2
+
+- fixed a bug which caused packages to fail if there were build through the automated GitHub Actions workflow
+
 ### 1.1.1
 
 - moved docs from readme to divekit-docs
