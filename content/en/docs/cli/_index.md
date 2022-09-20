@@ -149,7 +149,7 @@ $ "Milestone created - pls configure the origin repository"
 ```
 
 
-### `divekit edit`
+### `divekit patch`
 Edit the current or given milestone.
 
 #### Options
