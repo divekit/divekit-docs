@@ -84,6 +84,9 @@ repositoryConfig*. The following example shows the relevant options where each o
 
         # Define the number of concurrent repository generation processes. Keep in mind that high numbers can overload the Gitlab server if localMode is set to false
         "maxConcurrentWorkers": 1
+        
+        # Optional flag: set the logging level. Valid values are "debug", "info", "warn", "error" (case insensitive). Default value is "info".
+        "globalLogLevel": "debug"
     },
     "repository": {
         # The Name of the repositories. Multiple repositories will be named <repositoryName>_group_<uuid>, <repositoryName>_tests_group_<uuid> ...
