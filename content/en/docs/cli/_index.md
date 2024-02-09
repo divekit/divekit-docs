@@ -622,17 +622,15 @@ func TestPatch(t *testing.T) {
 			dryRunFlag := testCase.arguments.dryRun
 			distributionFlag := testCase.arguments.distribution
 
-			latestCommits := getLatestCommits(t, generatedFiles, dryRunFlag) // Step 1
-			deleteFilesFromRepositories(t, generatedFiles, dryRunFlag)       // Step 2
-			_, err := executePatch(testCase.arguments)                       // Step 3
+			deleteFilesFromRepositories(t, generatedFiles, dryRunFlag)       // Step 1
+			_, err := executePatch(testCase.arguments)                       // Step 2
 
-			checkErrorType(t, testCase.error, err) // Step 4
+			checkErrorType(t, testCase.error, err) // Step 3
 			if err == nil {
-				matchedFiles := matchGeneratedFiles(t, generatedFiles, distributionFlag) // Step 5
-				checkFileContent(t, matchedFiles)                                        // Step 6
-				checkPushedFiles(t, matchedFiles, dryRunFlag)                            // Step 7
+				matchedFiles := matchGeneratedFiles(t, generatedFiles, distributionFlag) // Step 4
+				checkFileContent(t, matchedFiles)                                        // Step 5
+				checkPushedFiles(t, matchedFiles, dryRunFlag)                            // Step 6
 			}
-			revertCommits(t, latestCommits, dryRunFlag) // Step 8
 		})
 	}
 }
@@ -640,26 +638,22 @@ func TestPatch(t *testing.T) {
 
 Each test case runs the following sequence of steps:
 
-1. `getLatestCommits` searches for the latest commits of each repository. The latest commit of a repository
-   is needed to indicate the initial commit after a test in order to revert changes that have been made during a test.
-
-2. `deleteFilesFromRepositories` deletes the specified files from their respective repositories. Prior to testing,
+1. `deleteFilesFromRepositories` deletes the specified files from their respective repositories. Prior to testing,
    it is necessary to delete these files to ensure that they are actually pushed to the repositories,
    given that they are initially included in the repositories.
 
-3. `executePatch` executes the patch command with the given arguments and return the output and the error.
+2. `executePatch` executes the patch command with the given arguments and return the output and the error.
 
-4. `checkErrorType` checks if the expected error type matches with the actual error type.
+3. `checkErrorType` checks if the expected error type matches with the actual error type.
 
-5. `matchGeneratedFiles` checks if the found file paths match with the expected files and
+4. `matchGeneratedFiles` checks if the found file paths match with the expected files and
    returns a slice of `MatchedFiles`. Each `MatchedFile` contains various information about a file,
    which is needed to check its correctness.
 
-6. `checkFileContent` checks if the content of the files is correct.
+5. `checkFileContent` checks if the content of the files is correct.
 
-7. `checkPushedFiles` checks if the generated files have been pushed correctly to the corresponding repositories.
+6. `checkPushedFiles` checks if the generated files have been pushed correctly to the corresponding repositories.
 
-8. `revertCommits` reverts the commits that have been made during a test.
 
 ## How is this project released?
 
