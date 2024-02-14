@@ -382,16 +382,17 @@ func TestPatch(t *testing.T) {
 			"example test case",
 			PatchArguments{
 				dryRun:       true | false,
-				logLevel:     "[none] | info | debug | warning | error",
+				logLevel:     "[empty] | info | debug | warning | error",
 				originRepo:   "path_to_test_origin_repo",
-				home:         "[none] | path_to_repositories",
-				distribution: "[none] | code | test",
+				home:         "[empty] | path_to_repositories",
+				distribution: "[empty] | code | test",
 				patchFiles:   []string{"patch_file_name"},
 			},
 			[]GeneratedFile{
 				{
 					RepoName:    "repository_name",
 					RelFilePath: "path_to_the_generated_file",
+					Distribution: Code | Test,
 					Include:     []string{"should_be_found_in_the_generated_file"},
 					Exclude:     []string{"should_not_be_found_in_the_generated_file"},
 				},
@@ -420,8 +421,9 @@ The struct `GeneratedFile` is the expected result of the `patch` command and con
 
 * `RepoName`: The name of the generated repository.
 * `RelFilePath`: The relative file path of the generated file.
-* `Include`: The strings that should be found in the generated file.
-* `Exclude`: The strings that should not be found in the generated file.
+* `Distribution`: The distribution of the generated file.
+* `Include`: Keywords that should be found in the generated file.
+* `Exclude`: Keywords that should not be found in the generated file.
 
 The `error` field is the expected error of the `patch` command. It can be `nil` when no error is expected or
 contain a specific error type if an error is expected.
@@ -442,18 +444,19 @@ func TestPatch(t *testing.T) {
 			dryRunFlag := testCase.arguments.dryRun
 			distributionFlag := testCase.arguments.distribution
 
-			deleteFilesFromRepositories(t, generatedFiles, dryRunFlag)       // Step 1
-			_, err := executePatch(testCase.arguments)                       // Step 2
+			deleteFilesFromRepositories(t, generatedFiles, dryRunFlag) // step 1
+			_, err := executePatch(testCase.arguments)                 // step 2
 
-			checkErrorType(t, testCase.error, err) // Step 3
+			checkErrorType(t, testCase.error, err) // step 3
 			if err == nil {
-				matchedFiles := matchGeneratedFiles(t, generatedFiles, distributionFlag) // Step 4
-				checkFileContent(t, matchedFiles)                                        // Step 5
-				checkPushedFiles(t, matchedFiles, dryRunFlag)                            // Step 6
+				matchGeneratedFiles(t, generatedFiles, distributionFlag) // step 4
+				checkFileContent(t, generatedFiles)                      // step 5
+				checkPushedFiles(t, generatedFiles, dryRunFlag)          // step 6
 			}
 		})
 	}
 }
+
 ```
 
 Each test case runs the following sequence of steps:
@@ -466,9 +469,8 @@ Each test case runs the following sequence of steps:
 
 3. `checkErrorType` checks if the expected error type matches with the actual error type.
 
-4. `matchGeneratedFiles` checks if the found file paths match with the expected files and
-   returns a slice of `MatchedFiles`. Each `MatchedFile` contains various information about a file,
-   which is needed to check its correctness.
+4. `matchGeneratedFiles` checks if the found file paths match with the expected files and throws an error when 
+   there are any differences.
 
 5. `checkFileContent` checks if the content of the files is correct.
 
