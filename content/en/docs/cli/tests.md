@@ -24,8 +24,6 @@ For that the following aspects should be considered:
 * ***Error Conditions***: Check that the code handles error conditions correctly. For example, if a function is
   supposed to handle an array of items, what happens when it’s given an empty array? What about an array with only one
   item, or an array with the maximum number of items?
-* ***State Changes***: Ensure that the code changes the state of the system as expected. For example,
-  modify a global variable and verify that the variable has been updated correctly.
 
 ### How should something be tested?
 
