@@ -586,9 +586,14 @@ If this feature is activated within the *repositoryConfig* the tool will spit ou
 there are suspicious variable values remaining after variable placeholders have been replaced. If for example a learner
 has to solve an exercise which contains Trucks instead of Cars (see config above) then the solution of this leaner
 should not contain variable values like "Car", "CarRepository", "setCar" or "setCars". In the *originRepositoryConfig*
-you can define a whitelist of file types which should be included in the warning process. Additionally an ignoreList can
-be configured. If a variable value is contained in one of the defined values inside the ignoreList this specific
-variable value will not trigger a warning. The following json is an example for the discussed configurable options:
+you can define a whitelist of file types which should be included in the warning process. 
+
+Additionally an *ignoreList* can be configured. If a variable value is contained in one of the defined values inside 
+the ignoreList this specific variable value will not trigger a warning. In addition, the *ignoreFileList* can 
+contain filenames which should be completely excluded from the warning process.
+
+
+The following json is an example for the discussed configurable options:
 
 ```json
 {
@@ -602,7 +607,12 @@ variable value will not trigger a warning. The following json is an example for 
             "ignoreList": [
                 "name",
                 "type"
-            ]
+            ],
+            "ignoreFileList": [
+                "individualizationCheck_testrepo.json",
+                "variationsConfig_testrepo.json",
+                "IndividualizationTest_testrepo.java"
+            ]            
         }
     }
 }
